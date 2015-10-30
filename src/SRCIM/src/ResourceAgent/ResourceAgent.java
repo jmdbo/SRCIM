@@ -9,6 +9,8 @@ import jade.core.Agent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Common.DFInteraction;
+import jade.domain.FIPAException;
 
 /**
  *
@@ -20,6 +22,7 @@ public class ResourceAgent extends Agent {
     protected ResourceHardwareInterface hardware;
     protected ArrayList<String> resourceSkills;
     String hardwareLibrary;
+    //Falta lançar os 2 behaviours das comunicações + behaviour para verificar fim + inscrever no DF
 
     @Override
     protected void setup() {
@@ -37,6 +40,13 @@ public class ResourceAgent extends Agent {
             hardware = (ResourceHardwareInterface) instance;
             hardware.initHardware(null);
             resourceSkills = hardware.getSkills();
+            for (String skill : resourceSkills) {
+                try {
+                    DFInteraction.RegisterInDF(this, this.getLocalName(), skill);
+                } catch (FIPAException ex) {
+                    Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
+                }                
+            } 
             
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
