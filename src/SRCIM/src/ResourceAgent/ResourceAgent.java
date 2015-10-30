@@ -5,11 +5,15 @@
  */
 package ResourceAgent;
 
+import Common.Constants;
 import jade.core.Agent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jade.lang.acl.MessageTemplate;
 import Common.DFInteraction;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 
 /**
@@ -23,14 +27,17 @@ public class ResourceAgent extends Agent {
     protected ArrayList<String> resourceSkills;
     String hardwareLibrary;
     //Falta lançar os 2 behaviours das comunicações + behaviour para verificar fim + inscrever no DF
-
+    
     @Override
     protected void setup() {
+        
         try {
             /*
              Arguments
              [0]->Simulation or not (boolean)
              */
+      
+            
             simulation = Boolean.valueOf((String) this.getArguments()[0]);
             hardwareLibrary = this.getLocalName() + "Interface";
 
@@ -47,12 +54,14 @@ public class ResourceAgent extends Agent {
                     Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
                 }                
             } 
+            this.addBehaviour(new NegotiationResponder(this,MessageTemplate.MatchOntology(Constants.ONTOLOGY_NEGOTIATE_SKILL)));
+            this.addBehaviour(new RequestRResponder(this,MessageTemplate.MatchOntology(Constants.ONTOLOGY_REQUEST_SKILL)));
             
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     /*
      This method is called whenever the resource wants to actuate
      */
