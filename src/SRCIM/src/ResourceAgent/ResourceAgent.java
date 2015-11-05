@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jade.lang.acl.MessageTemplate;
 import Common.DFInteraction;
+import jade.core.AID;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
@@ -25,6 +26,7 @@ public class ResourceAgent extends Agent {
     private boolean simulation;
     protected ResourceHardwareInterface hardware;
     protected ArrayList<String> resourceSkills;
+    protected ArrayList<AID> negociatedAgents;
     String hardwareLibrary;
     //Falta lançar os 2 behaviours das comunicações + behaviour para verificar fim + inscrever no DF
     

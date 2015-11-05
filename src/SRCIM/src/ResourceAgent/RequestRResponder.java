@@ -23,14 +23,13 @@ public class RequestRResponder extends AchieveREResponder {
     
     public RequestRResponder(Agent a, MessageTemplate mt){
         super(a,mt);
-        this.RA = new ResourceAgent();
+        this.RA = (ResourceAgent)a;
     }
     @Override
-    @SuppressWarnings("empty-statement")
     protected ACLMessage handleRequest(ACLMessage request) throws NotUnderstoodException, RefuseException{
         
         ACLMessage msg = request.createReply();
-        if( RA.executeSkill(FIPA_QUERY, currentName)){
+        if(RA.negociatedAgents.contains(request.getSender())){
             msg.setPerformative(ACLMessage.AGREE);
         }else{
             msg.setPerformative(ACLMessage.REFUSE);
@@ -40,7 +39,8 @@ public class RequestRResponder extends AchieveREResponder {
     
     @Override
     protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) throws FailureException{
-        
+        //Perguntar ao Rocha se vou buscar ao DF o requester
+        //RA.executeSkill();
         //RA.executionFinished(FIPA_QUERY, currentName)
         ACLMessage msg = request.createReply();
         msg.setPerformative(ACLMessage.INFORM);
