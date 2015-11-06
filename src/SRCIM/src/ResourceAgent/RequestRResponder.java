@@ -39,11 +39,17 @@ public class RequestRResponder extends AchieveREResponder {
     
     @Override
     protected ACLMessage prepareResultNotification(ACLMessage request, ACLMessage response) throws FailureException{
-        //Perguntar ao Rocha se vou buscar ao DF o requester
-        //RA.executeSkill();
-        //RA.executionFinished(FIPA_QUERY, currentName)
+        String query, requester;
+        query = request.getContent();
+        requester = request.getSender().getLocalName();
+        boolean result = RA.executeSkill(query, requester);
+        RA.executionFinished(query, requester);
         ACLMessage msg = request.createReply();
-        msg.setPerformative(ACLMessage.INFORM);
+        if(result){
+            msg.setPerformative(ACLMessage.INFORM);
+        }else{
+            msg.setPerformative(ACLMessage.FAILURE);
+        }
         return msg;
     }
 }

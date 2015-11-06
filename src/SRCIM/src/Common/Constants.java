@@ -13,5 +13,6 @@ public class Constants {
     
     public static final String ONTOLOGY_REQUEST_SKILL = "reSkill";
     public static final String ONTOLOGY_NEGOTIATE_SKILL = "negoSkill";
+    public static final String DF_SERVICE_PRODUCT = "productAgent";
 
 }

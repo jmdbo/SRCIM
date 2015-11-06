@@ -38,8 +38,6 @@ public class ResourceAgent extends Agent {
              Arguments
              [0]->Simulation or not (boolean)
              */
-      
-            
             simulation = Boolean.valueOf((String) this.getArguments()[0]);
             hardwareLibrary = this.getLocalName() + "Interface";
 
@@ -49,13 +47,11 @@ public class ResourceAgent extends Agent {
             hardware = (ResourceHardwareInterface) instance;
             hardware.initHardware(null);
             resourceSkills = hardware.getSkills();
-            for (String skill : resourceSkills) {
-                try {
-                    DFInteraction.RegisterInDF(this, this.getLocalName(), skill);
-                } catch (FIPAException ex) {
-                    Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
-                }                
-            } 
+            try {
+                DFInteraction.RegisterInDF(this, this.getLocalName(), resourceSkills);
+            } catch (FIPAException ex) {
+                Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
+            }                            
             this.addBehaviour(new NegotiationResponder(this,MessageTemplate.MatchOntology(Constants.ONTOLOGY_NEGOTIATE_SKILL)));
             this.addBehaviour(new RequestRResponder(this,MessageTemplate.MatchOntology(Constants.ONTOLOGY_REQUEST_SKILL)));
             
@@ -64,6 +60,14 @@ public class ResourceAgent extends Agent {
         }
     }
     
+    @Override
+    protected void takeDown(){
+        try {
+            DFInteraction.DeregisterFromDF(this);
+        } catch (Exception e) {
+             Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
     /*
      This method is called whenever the resource wants to actuate
      */
