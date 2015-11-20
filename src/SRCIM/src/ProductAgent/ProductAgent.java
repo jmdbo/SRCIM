@@ -9,8 +9,9 @@ import Common.Constants;
 import Common.DFInteraction;
 import ResourceAgent.ResourceAgent;
 import jade.core.Agent;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.core.behaviours.SequentialBehaviour;
 import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,24 +25,28 @@ public class ProductAgent extends Agent {
     
     protected ArrayList<String> productionOrder;
     
+    protected ACLMessage msgCFP;
+    protected ACLMessage msgFR;
+    
     @Override
     protected void setup(){
         productionOrder = new ArrayList<>();
-        DFAgentDescription[] skillAgents;
+        msgCFP = new ACLMessage(ACLMessage.CFP);
         try {
             DFInteraction.RegisterInDF(this, this.getLocalName(), Constants.DF_SERVICE_PRODUCT);
+            createProductionOrder();            
+            if(!productionOrder.isEmpty()){
+                SequentialBehaviour sb = new SequentialBehaviour();
+                sb.addSubBehaviour(new HasNextBehaviour(this));
+                this.addBehaviour(sb);
+            }else
+            {
+                this.doDelete();
+            }
         } catch (FIPAException ex) {
             Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
+            this.doDelete();
         }
-        createProductionOrder();
-        for (String productionElement : productionOrder) {
-            try {
-                skillAgents = DFInteraction.SearchInDFbySkill(productionElement, this);
-            } catch (FIPAException ex) {
-            }
-            
-        }
-        
     }
     
     @Override

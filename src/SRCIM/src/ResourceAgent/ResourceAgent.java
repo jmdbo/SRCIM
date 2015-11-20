@@ -38,6 +38,7 @@ public class ResourceAgent extends Agent {
              Arguments
              [0]->Simulation or not (boolean)
              */
+            negociatedAgents = new ArrayList();
             simulation = Boolean.valueOf((String) this.getArguments()[0]);
             hardwareLibrary = this.getLocalName() + "Interface";
 

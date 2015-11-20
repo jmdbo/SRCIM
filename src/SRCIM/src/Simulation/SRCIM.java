@@ -267,9 +267,13 @@ public class SRCIM extends javax.swing.JFrame {
         Runtime runtime = jade.core.Runtime.instance();
         AgentContainer container = runtime.createAgentContainer(new ProfileImpl());
         
+        
         //LoadingStation
         AgentController ls = container.createNewAgent("LoadingStation", "ResourceAgent.ResourceAgent", new Object[]{mode});
         ls.start();
+        //LoadingStation
+        AgentController ls2 = container.createNewAgent("LoadingStation1", "ResourceAgent.ResourceAgent", new Object[]{mode});
+        ls2.start();
         //Gripper1
         AgentController g1 = container.createNewAgent("Gripper1", "ResourceAgent.ResourceAgent", new Object[]{mode});
         g1.start();
@@ -297,5 +301,8 @@ public class SRCIM extends javax.swing.JFrame {
         //Rotate3
         AgentController r3 = container.createNewAgent("Rotate3", "ResourceAgent.ResourceAgent", new Object[]{mode});
         r3.start();
+        //Product 1
+        AgentController p1 = container.createNewAgent("Product1", "ProductAgent.ProductAgent", new Object[]{mode});
+        p1.start();
     }
 }
