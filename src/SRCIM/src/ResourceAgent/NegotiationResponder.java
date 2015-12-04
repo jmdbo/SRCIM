@@ -47,6 +47,7 @@ public class NegotiationResponder extends ContractNetResponder {
         }
         ACLMessage msg = cfp.createReply();
         msg.setPerformative(ACLMessage.INFORM);
+        msg.setContent(cfp.getContent());
         return msg;
     }
 }

@@ -25,8 +25,10 @@ public class RequestRResponder extends AchieveREResponder {
     @Override
     protected ACLMessage handleRequest(ACLMessage request) throws NotUnderstoodException, RefuseException{
         ACLMessage msg = request.createReply();
-        if(((ResourceAgent)myAgent).negociatedAgents.contains(request.getSender())){
+        if(((ResourceAgent)myAgent).negociatedAgents.contains(request.getSender()) && 
+                ((ResourceAgent)myAgent).resourceSkills.contains(request.getContent())){
             msg.setPerformative(ACLMessage.AGREE);
+            msg.setContent(request.getContent());
             registerPrepareResultNotification(new ExecutionFinished(request, msg, this.RESULT_NOTIFICATION_KEY));
         }else{
             msg.setPerformative(ACLMessage.REFUSE);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProductAgent;
+package CoalitionLeaderAgent;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -19,7 +19,7 @@ import java.util.Vector;
 public class NegotiationInitiator extends ContractNetInitiator {
 
     public NegotiationInitiator(Agent a, ACLMessage cfp) {
-        super(a, cfp);        
+        super(a, cfp);
     }
     
     public static ACLMessage BuildMessage(DFAgentDescription[] receivers){
@@ -50,10 +50,8 @@ public class NegotiationInitiator extends ContractNetInitiator {
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 acceptances.add(reply);
-                ((ProductAgent)myAgent).msgFR.addReceiver(msg.getSender());
-                ((ProductAgent)myAgent).msgFR.setOntology(Common.Constants.ONTOLOGY_REQUEST_SKILL);
-                ((ProductAgent)myAgent).msgFR.setContent(((ProductAgent)myAgent).msgCFP.getContent());
-                System.out.println("FR content:" + ((ProductAgent)myAgent).msgFR.getContent());
+                ((CoalitionLeaderAgent)myAgent).msgFR = RequestRInitiator.BuildMessage(msg.getSender());
+                ((CoalitionLeaderAgent)myAgent).msgFR.setContent(((CoalitionLeaderAgent)myAgent).msgCFP.getContent());
             }else{
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.REJECT_PROPOSAL);
@@ -72,12 +70,12 @@ public class NegotiationInitiator extends ContractNetInitiator {
     
     @Override
     protected void handleInform(ACLMessage inform){
-        System.out.println(myAgent.getLocalName() + " : INFORM message Received content: " + inform.getContent());
+        System.out.println(myAgent.getLocalName() + " : INFORM message Received");
     }
     
     @Override
     protected void handlePropose(ACLMessage propose, Vector acceptances){
-        System.out.println(myAgent.getLocalName() + " : PROPOSAL message Received from: " + propose.getSender().getName());
+        System.out.println(myAgent.getLocalName() + " : PROPOSAL message Received");
     }
     
     @Override

@@ -273,7 +273,7 @@ public class SRCIM extends javax.swing.JFrame {
         ls.start();
         //LoadingStation
         AgentController ls2 = container.createNewAgent("LoadingStation1", "ResourceAgent.ResourceAgent", new Object[]{mode});
-        ls2.start();
+        //ls2.start();
         //Gripper1
         AgentController g1 = container.createNewAgent("Gripper1", "ResourceAgent.ResourceAgent", new Object[]{mode});
         g1.start();

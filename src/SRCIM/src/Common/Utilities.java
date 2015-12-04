@@ -6,6 +6,7 @@
 package Common;
 
 import jade.core.AID;
+import java.util.ArrayList;
 
 /**
  *
@@ -49,5 +50,59 @@ public class Utilities {
 
     //AID
     public static AID festo_cell = new AID("FESTO_UNINOVA", false);
+    
+    /**
+     *
+     * @param agentType
+     * @return
+     */
+    public static ArrayList<String> createProductionList(String agentType){
+        ArrayList<String> productionOrder = new ArrayList();
+        
+        if(agentType.equals(ProductAgent.ProductAgent.class.toString())){
+            productionOrder.add(Common.Utilities.UnlockTableToPlacePosition);
+//            productionOrder.add(Common.Utilities.UnlockTableToPickPosition);
+//            productionOrder.add(Common.Utilities.TableToPlacePosition);
+//            productionOrder.add(Common.Utilities.UserPlaceOnTable);
+//            productionOrder.add(Common.Utilities.UnlockTableToPlacePosition);
+//            productionOrder.add(Common.Utilities.TableToPickPosition);
+//            productionOrder.add(Common.Utilities.OpenGripper1);
+//            productionOrder.add(Common.Utilities.CylinderG2Down);
+            productionOrder.add(Common.Utilities.CloseGripper1);
+//            productionOrder.add(Common.Utilities.CylinderG2DUp);
+//            productionOrder.add(Common.Utilities.UnlockTableToPickPosition);
+//            productionOrder.add(Common.Utilities.TableToPlacePosition);
+//            productionOrder.add(Common.Utilities.CylinderG2Down);
+//            productionOrder.add(Common.Utilities.OpenGripper1);
+//            productionOrder.add(Common.Utilities.CylinderG2DUp);
+//            productionOrder.add(Common.Utilities.CloseGripper1);
+//            productionOrder.add(Common.Utilities.UnlockTableToPlacePosition);
+//            productionOrder.add(Common.Utilities.VacuumGripperDown);
+//            productionOrder.add(Common.Utilities.VaccuumGripperOn);
+//            productionOrder.add(Common.Utilities.VacuumGripperUp);
+//            productionOrder.add(Common.Utilities.VacuumGripperToWall);
+//            productionOrder.add(Common.Utilities.UnlockHorizontalCylinderFront);
+//            productionOrder.add(Common.Utilities.UnlockHorizontalCylinderBack);
+//            productionOrder.add(Common.Utilities.HorizontalCylinderFront);
+//            productionOrder.add(Common.Utilities.VacuumGripperDown);
+//            productionOrder.add(Common.Utilities.VaccuumGripperOff);
+//            productionOrder.add(Common.Utilities.VacuumGripperUp);
+//            productionOrder.add(Common.Utilities.VacuumGripperToRoom);
+//            productionOrder.add(Common.Utilities.UnlockHorizontalCylinderFront);
+//            productionOrder.add(Common.Utilities.HorizontalCylinderBack);
+//            productionOrder.add(Common.Utilities.Rotate3Left);
+//            productionOrder.add(Common.Utilities.Gripper3Open);
+//            productionOrder.add(Common.Utilities.Cylinder3Down);
+//            productionOrder.add(Common.Utilities.Gripper3Close);
+//            productionOrder.add(Common.Utilities.Cylinder3Up);
+//            productionOrder.add(Common.Utilities.UnlockHorizontalCylinderBack);
+//            productionOrder.add(Common.Utilities.HorizontalCylinderFront);
+//            productionOrder.add(Common.Utilities.Rotate3Right);
+//            productionOrder.add(Common.Utilities.Gripper3Open);
+//            productionOrder.add(Common.Utilities.UnlockHorizontalCylinderFront);
+        }
+        
+        return productionOrder;
+    }
 
 }
