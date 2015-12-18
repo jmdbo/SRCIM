@@ -5,10 +5,11 @@
  */
 package CoalitionLeaderAgent;
 
-import CoalitionLeaderAgent.*;
 import jade.core.Agent;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SequentialBehaviour;
+import jade.lang.acl.ACLMessage;
+
 
 /**
  *
@@ -23,14 +24,17 @@ public class HasNextBehaviour extends OneShotBehaviour {
     @Override
     public void action() {
        if(!((CoalitionLeaderAgent)myAgent).productionOrder.isEmpty()){
-        SequentialBehaviour sb = new SequentialBehaviour();
-        sb.addSubBehaviour(new NextSkillBehaviour(myAgent));
-        sb.addSubBehaviour(new NegotiationInitiator(myAgent, ((CoalitionLeaderAgent)myAgent).msgCFP));
-        sb.addSubBehaviour(new RequestRInitiator(myAgent, ((CoalitionLeaderAgent)myAgent).msgFR));
-        sb.addSubBehaviour(new HasNextBehaviour(myAgent));
-        myAgent.addBehaviour(sb);
+           ((CoalitionLeaderAgent)myAgent).msgCFP = new ACLMessage(ACLMessage.CFP);
+           ((CoalitionLeaderAgent)myAgent).msgFR = new ACLMessage(ACLMessage.REQUEST);
+           SequentialBehaviour sb = new SequentialBehaviour();
+           sb.addSubBehaviour(new NextSkillBehaviour(myAgent));
+           sb.addSubBehaviour(new NegotiationInitiator(myAgent, ((CoalitionLeaderAgent)myAgent).msgCFP));
+           sb.addSubBehaviour(new RequestRInitiator(myAgent, ((CoalitionLeaderAgent)myAgent).msgFR));
+           sb.addSubBehaviour(new HasNextBehaviour(myAgent));
+           myAgent.addBehaviour(sb);
        }else{
-           myAgent.doDelete();
+           ((CoalitionLeaderAgent)myAgent).setExecutionFinished(true);
+           System.out.println("CLA skill Finished!");
        }
     }
     

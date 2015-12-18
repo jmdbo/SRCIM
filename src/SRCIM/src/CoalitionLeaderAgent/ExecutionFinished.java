@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ResourceAgent;
+package CoalitionLeaderAgent;
 
 import jade.core.behaviours.DataStore;
 import jade.core.behaviours.SimpleBehaviour;
@@ -40,7 +40,7 @@ public class ExecutionFinished extends SimpleBehaviour{
         query = request.getContent();
         requester = request.getSender().getLocalName();
         if(!skillExecuted){
-            executionResult = ((ResourceAgent)myAgent).executeSkill(request.getContent(), request.getSender().getLocalName());
+            executionResult = ((CoalitionLeaderAgent)myAgent).executeSkill(request.getContent(), requester);
             skillExecuted = true;
         }
         if(!executionResult){
@@ -48,16 +48,17 @@ public class ExecutionFinished extends SimpleBehaviour{
            msg = request.createReply();
            msg.setPerformative(ACLMessage.FAILURE);
            ds.put(RESULT_NOTIFICATION_KEY, msg);
-           ((ResourceAgent)myAgent).negociatedAgents.remove(request.getSender());
         }
         
-        if(executionResult && ((ResourceAgent)myAgent).executionFinished(query, requester)){
+        if(executionResult && ((CoalitionLeaderAgent)myAgent).executionFinished(query)){
             msg = request.createReply();
-            msg.setPerformative(ACLMessage.INFORM);
-            System.out.println("End of Execution Detected");
+            if(((CoalitionLeaderAgent)myAgent).hasFailed)
+                msg.setPerformative(ACLMessage.FAILURE);
+            else msg.setPerformative(ACLMessage.INFORM);
+            ((CoalitionLeaderAgent)myAgent).hasFailed = false;
+            //System.out.println("End of Execution Detected");
             ds.put(RESULT_NOTIFICATION_KEY, msg);
             myAgent.send(msg);
-            ((ResourceAgent)myAgent).negociatedAgents.remove(request.getSender());
             done = true;
         }
     }

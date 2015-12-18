@@ -7,15 +7,33 @@
             <file>file:/C:/Users/adroc_000/Documents/NetBeansProjects/SRCIM/src/ProductAgent/x.java</file>
         </group>
         <group name="SRCIM - TP">
-            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ProductAgent/RequestRInitiator.java</file>
-            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/NegotiationResponder.java</file>
-            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Common/Utilities.java</file>
-            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/RequestRResponder.java</file>
-            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ProductAgent/ProductAgent.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Interfaces/Gripper1Interface.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/ExecutionFinished.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/ResourceHardwareInterface.java</file>
             <file>file:/C:/dev/SRCIM/src/SRCIM/src/ProductAgent/HasNextBehaviour.java</file>
             <file>file:/C:/dev/SRCIM/src/SRCIM/src/ProductAgent/NegotiationInitiator.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/ExecutionFinished.java</file>
             <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/ResourceAgent.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/SendCommand.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/CLAInterface.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/NegotiationResponder.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/HasNextBehaviour.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Interfaces/EntryToConveyorCLAInterface.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/RequestRResponder.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/RequestRInitiator.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/NegotiationResponder.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/NegotiationInitiator.java</file>
             <file>file:/C:/dev/SRCIM/src/SRCIM/src/ProductAgent/NextSkillBehaviour.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/CoalitionLeaderAgent.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ProductAgent/RequestRInitiator.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Common/DFInteraction.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Common/Constants.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/CoalitionLeaderAgent/NextSkillBehaviour.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ResourceAgent/RequestRResponder.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Interfaces/Pos2ToDepositCLAInterface.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Common/Utilities.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/Interfaces/ConveyorToPos2CLAInterface.java</file>
+            <file>file:/C:/dev/SRCIM/src/SRCIM/src/ProductAgent/ProductAgent.java</file>
         </group>
     </open-files>
 </project-private>

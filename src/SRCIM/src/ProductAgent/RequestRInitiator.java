@@ -5,7 +5,6 @@
  */
 package ProductAgent;
 
-import jade.core.AID;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import jade.proto.AchieveREInitiator;

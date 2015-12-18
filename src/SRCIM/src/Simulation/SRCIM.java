@@ -301,6 +301,15 @@ public class SRCIM extends javax.swing.JFrame {
         //Rotate3
         AgentController r3 = container.createNewAgent("Rotate3", "ResourceAgent.ResourceAgent", new Object[]{mode});
         r3.start();
+        //ConveyorToPos2CLA
+        AgentController cla1 = container.createNewAgent("ConveyorToPos2CLA", "CoalitionLeaderAgent.CoalitionLeaderAgent", new Object[]{mode});
+        cla1.start();
+        //EntryToConveyorCLA
+        AgentController cla2 = container.createNewAgent("EntryToConveyorCLA", "CoalitionLeaderAgent.CoalitionLeaderAgent", new Object[]{mode});
+        cla2.start();
+        //Pos2ToDepositCLA
+        AgentController cla3 = container.createNewAgent("Pos2ToDepositCLA", "CoalitionLeaderAgent.CoalitionLeaderAgent", new Object[]{mode});
+        cla3.start();
         //Product 1
         AgentController p1 = container.createNewAgent("Product1", "ProductAgent.ProductAgent", new Object[]{mode});
         p1.start();

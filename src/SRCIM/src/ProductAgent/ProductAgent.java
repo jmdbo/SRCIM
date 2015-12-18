@@ -34,7 +34,7 @@ public class ProductAgent extends Agent {
         productionOrder = new ArrayList<>();
         try {
             DFInteraction.RegisterInDF(this, this.getLocalName(), Constants.DF_SERVICE_PRODUCT);
-            productionOrder = Utilities.createProductionList(this.getClass().toString());            
+            productionOrder = Utilities.createProductionList(this.getClass().toString(), this.getLocalName());            
             if(!productionOrder.isEmpty()){
                 this.addBehaviour(new HasNextBehaviour(this));
             }else
