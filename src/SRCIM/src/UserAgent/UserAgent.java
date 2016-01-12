@@ -3,30 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ResourceAgent;
+package UserAgent;
 
 import Common.Constants;
-import jade.core.Agent;
+import Common.DFInteraction;
+import SkillAgent.SkillAgent;
+import jade.domain.FIPAException;
+import jade.lang.acl.MessageTemplate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jade.lang.acl.MessageTemplate;
-import Common.DFInteraction;
-import SkillAgent.SkillAgent;
-import jade.core.AID;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.domain.FIPAException;
 
 /**
  *
- * @author Andre Dionisio Rocha
+ * @author João
  */
-public class ResourceAgent extends SkillAgent {
-
+public class UserAgent extends SkillAgent {
+    protected java.awt.Frame mainFrame; 
     private boolean simulation;
-    protected ResourceHardwareInterface hardware;
-    String hardwareLibrary;
+    protected UserInterface user;
+    String userLibrary;
+    protected boolean executionDone;
+    protected boolean executionResult;
     //Falta lançar os 2 behaviours das comunicações + behaviour para verificar fim + inscrever no DF
     
     @Override
@@ -39,24 +37,24 @@ public class ResourceAgent extends SkillAgent {
              */
             negociatedAgents = new ArrayList();
             simulation = Boolean.valueOf((String) this.getArguments()[0]);
-            hardwareLibrary = this.getLocalName() + "Interface";
+            mainFrame = (java.awt.Frame) this.getArguments()[1];
+            userLibrary = this.getLocalName() + "Interface";
 
             //Load low level lib
-            Class cls = Class.forName("Interfaces." + hardwareLibrary);
+            Class cls = Class.forName("Interfaces." + userLibrary);
             Object instance = cls.newInstance();
-            hardware = (ResourceHardwareInterface) instance;
-            hardware.initHardware(null);
-            resourceSkills = hardware.getSkills();
+            user = (UserInterface) instance;
+            resourceSkills = user.getSkills();
             try {
                 DFInteraction.RegisterInDF(this, this.getLocalName(), resourceSkills);
             } catch (FIPAException ex) {
-                Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserAgent.class.getName()).log(Level.SEVERE, null, ex);
             }                            
             this.addBehaviour(new NegotiationResponder(this,MessageTemplate.MatchOntology(Constants.ONTOLOGY_NEGOTIATE_SKILL)));
             this.addBehaviour(new RequestRResponder(this,MessageTemplate.MatchOntology(Constants.ONTOLOGY_REQUEST_SKILL)));
             
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -65,7 +63,7 @@ public class ResourceAgent extends SkillAgent {
         try {
             DFInteraction.DeregisterFromDF(this);
         } catch (Exception e) {
-             Logger.getLogger(ResourceAgent.class.getName()).log(Level.SEVERE, null, e);
+             Logger.getLogger(UserAgent.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     /*
@@ -73,10 +71,10 @@ public class ResourceAgent extends SkillAgent {
      */
     protected boolean executeSkill(String skill, String requester) {
         System.out.println("\n" + this.getLocalName() + " executing: " + skill);
-        Simulation.SRCIM.insertExecutionEntrance(skill, this.getLocalName(), requester);
-        if (!simulation) {
-            return hardware.executeSkill(this, skill, hardware);
-        }
+        this.executionDone = false;
+        this.executionResult = false;
+        UserInput dialog = new UserInput(mainFrame, true, this);
+        dialog.setVisible(true);
         return true;
     }
 
@@ -84,18 +82,15 @@ public class ResourceAgent extends SkillAgent {
      This method is called whenever the resource wants to consult if the execution finished
      */
     protected boolean executionFinished(String skill, String requester) {
-        if (!simulation) {
-            if (hardware.executionFinished()) {
-                System.out.println("\n " + this.getLocalName() + " finished: " + skill);
+        if (this.executionDone) {
+            System.out.println("\n " + this.getLocalName() + " finished: " + skill);
+            if(simulation)
                 Simulation.SRCIM.insertFinishedEntrance(skill, this.getLocalName(), requester);
-                return true;
-            }else{
-                return false;
-            }
-        } else {
-            System.out.println("\nesource: " + this.getLocalName() + " finished: " + skill);
-            Simulation.SRCIM.insertFinishedEntrance(skill, this.getLocalName(), requester);
             return true;
+        }else{
+            return false;
         }
+   
     }
+    
 }

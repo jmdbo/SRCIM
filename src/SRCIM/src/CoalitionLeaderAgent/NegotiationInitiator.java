@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProductAgent;
+package CoalitionLeaderAgent;
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -17,11 +17,13 @@ import java.util.Vector;
  * @author João
  */
 public class NegotiationInitiator extends ContractNetInitiator {
+    
+    
 
     public NegotiationInitiator(Agent a, ACLMessage cfp) {
         super(a, cfp);        
     }
-    
+    /*
     public static ACLMessage BuildMessage(DFAgentDescription[] receivers){
         ACLMessage msg = new ACLMessage(ACLMessage.CFP);
         for(DFAgentDescription receiver: receivers){
@@ -30,18 +32,22 @@ public class NegotiationInitiator extends ContractNetInitiator {
         msg.setOntology(Common.Constants.ONTOLOGY_NEGOTIATE_SKILL);
         return msg;
     }
-    
+    */
     @Override
     protected void handleAllResponses(Vector responses, Vector acceptances){
         int minCost = Integer.MAX_VALUE;
+        int acceptCount = 0;
         AID bestSender = new AID();
         int msgCost;
         for(Object obj : responses){
             ACLMessage msg = (ACLMessage) obj;
             msgCost = Integer.parseInt(msg.getContent());
-            if(msgCost < minCost){
-                minCost = msgCost;
-                bestSender = msg.getSender();
+            if(msg.getPerformative() == ACLMessage.PROPOSE){ 
+                acceptCount++;
+                if(msgCost < minCost){
+                    minCost = msgCost;
+                    bestSender = msg.getSender();
+                }
             }
         }
         for(Object obj : responses){
@@ -50,15 +56,19 @@ public class NegotiationInitiator extends ContractNetInitiator {
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
                 acceptances.add(reply);
-                ((ProductAgent)myAgent).msgFR.addReceiver(msg.getSender());
-                ((ProductAgent)myAgent).msgFR.setOntology(Common.Constants.ONTOLOGY_REQUEST_SKILL);
-                ((ProductAgent)myAgent).msgFR.setContent(((ProductAgent)myAgent).msgCFP.getContent());
-                System.out.println("FR content:" + ((ProductAgent)myAgent).msgFR.getContent());
+                ((CoalitionLeaderAgent)myAgent).msgFR.addReceiver(msg.getSender());
+                ((CoalitionLeaderAgent)myAgent).msgFR.setOntology(Common.Constants.ONTOLOGY_REQUEST_SKILL);
+                ((CoalitionLeaderAgent)myAgent).msgFR.setContent(((CoalitionLeaderAgent)myAgent).msgCFP.getContent());
+                System.out.println("FR content:" + ((CoalitionLeaderAgent)myAgent).msgFR.getContent());
             }else{
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.REJECT_PROPOSAL);
                 acceptances.add(reply);
             }
+            
+        }
+        if(acceptCount==0){
+            ((CoalitionLeaderAgent)myAgent).productionOrder.clear();
             
         }
         

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProductAgent;
+package CoalitionLeaderAgent;
 
 import Common.DFInteraction;
 import jade.core.Agent;
@@ -30,15 +30,15 @@ public class NextSkillBehaviour extends OneShotBehaviour {
     public void action() {
         try {
             System.out.println("NextSkillBehaviour executed by:" + myAgent.getLocalName());
-            skill=((ProductAgent)myAgent).productionOrder.get(0);
-            ((ProductAgent)myAgent).productionOrder.remove(0);
+            skill=((CoalitionLeaderAgent)myAgent).productionOrder.get(0);
+            ((CoalitionLeaderAgent)myAgent).productionOrder.remove(0);
             skillAgents = DFInteraction.SearchInDFbySkill(skill, myAgent);
             for(DFAgentDescription receiver: skillAgents){
-                ((ProductAgent)myAgent).msgCFP.addReceiver(receiver.getName());
+                ((CoalitionLeaderAgent)myAgent).msgCFP.addReceiver(receiver.getName());
             }        
-            ((ProductAgent)myAgent).msgCFP.setOntology(Common.Constants.ONTOLOGY_NEGOTIATE_SKILL);            
-            ((ProductAgent)myAgent).msgCFP.setContent(skill);
-            System.out.println("CFP content:" + ((ProductAgent)myAgent).msgCFP.getContent());
+            ((CoalitionLeaderAgent)myAgent).msgCFP.setOntology(Common.Constants.ONTOLOGY_NEGOTIATE_SKILL);            
+            ((CoalitionLeaderAgent)myAgent).msgCFP.setContent(skill);
+            System.out.println("CFP content:" + ((CoalitionLeaderAgent)myAgent).msgCFP.getContent());
         } catch (FIPAException ex) {
             Logger.getLogger(NextSkillBehaviour.class.getName()).log(Level.SEVERE, null, ex);
         }

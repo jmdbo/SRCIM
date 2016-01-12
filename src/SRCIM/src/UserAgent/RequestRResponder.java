@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ResourceAgent;
+package UserAgent;
 
 import jade.core.Agent;
 import jade.domain.FIPAAgentManagement.NotUnderstoodException;
@@ -25,8 +25,8 @@ public class RequestRResponder extends AchieveREResponder {
     @Override
     protected ACLMessage handleRequest(ACLMessage request) throws NotUnderstoodException, RefuseException{
         ACLMessage msg = request.createReply();
-        if(((ResourceAgent)myAgent).negociatedAgents.contains(request.getSender()) && 
-                ((ResourceAgent)myAgent).resourceSkills.contains(request.getContent())){
+        if(((UserAgent)myAgent).negociatedAgents.contains(request.getSender()) && 
+                ((UserAgent)myAgent).resourceSkills.contains(request.getContent())){
             msg.setPerformative(ACLMessage.AGREE);
             msg.setContent(request.getContent());
             registerPrepareResultNotification(new ExecutionFinished(request, msg, this.RESULT_NOTIFICATION_KEY));

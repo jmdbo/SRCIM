@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ResourceAgent;
+package UserAgent;
 
+import ResourceAgent.*;
 import jade.core.behaviours.DataStore;
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -40,7 +41,7 @@ public class ExecutionFinished extends SimpleBehaviour{
         query = request.getContent();
         requester = request.getSender().getLocalName();
         if(!skillExecuted){
-            executionResult = ((ResourceAgent)myAgent).executeSkill(request.getContent(), request.getSender().getLocalName());
+            executionResult = ((UserAgent)myAgent).executeSkill(request.getContent(), request.getSender().getLocalName());
             skillExecuted = true;
         }
         if(!executionResult){
@@ -51,13 +52,17 @@ public class ExecutionFinished extends SimpleBehaviour{
            ((ResourceAgent)myAgent).negociatedAgents.remove(request.getSender());
         }
         
-        if(executionResult && ((ResourceAgent)myAgent).executionFinished(query, requester)){
+        else if(((UserAgent)myAgent).executionFinished(query, requester)){
             msg = request.createReply();
-            msg.setPerformative(ACLMessage.INFORM);
+            if(((UserAgent)myAgent).executionResult){
+                 msg.setPerformative(ACLMessage.INFORM);
+            }else {
+                msg.setPerformative(ACLMessage.FAILURE);
+            }
             System.out.println("End of Execution Detected");
             ds.put(RESULT_NOTIFICATION_KEY, msg);
             myAgent.send(msg);
-            ((ResourceAgent)myAgent).negociatedAgents.remove(request.getSender());
+            ((UserAgent)myAgent).negociatedAgents.remove(request.getSender());
             done = true;
         }
     }
